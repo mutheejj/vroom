@@ -1,5 +1,6 @@
 package com.example.vroom.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,47 +12,56 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vroom.R;
 import com.example.vroom.models.Car;
 import java.util.List;
+import java.util.Locale;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
-    private List<Car> carList;
+    private List<Car> cars;
     private OnCarClickListener listener;
+    private Context context;
 
     public interface OnCarClickListener {
         void onCarClick(Car car);
     }
 
-    public CarAdapter(List<Car> carList, OnCarClickListener listener) {
-        this.carList = carList;
+    public CarAdapter(List<Car> cars, OnCarClickListener listener) {
+        this.cars = cars;
         this.listener = listener;
     }
 
     @NonNull
     @Override
     public CarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_car, parent, false);
+        context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.item_car, parent, false);
         return new CarViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
-        Car car = carList.get(position);
+        Car car = cars.get(position);
+        
+        // Get the resource ID dynamically
+        int imageResourceId = context.getResources().getIdentifier(
+            car.getImageResourceName(),
+            "drawable",
+            context.getPackageName()
+        );
+        
+        holder.carImage.setImageResource(imageResourceId);
         holder.carName.setText(car.getName());
         holder.carDescription.setText(car.getDescription());
-        holder.carPrice.setText(String.format("$%,.2f", car.getPrice()));
+        holder.carPrice.setText(String.format(Locale.US, "$%.2f", car.getPrice()));
         
-        // Load image from drawable
-        int resourceId = holder.itemView.getContext().getResources()
-            .getIdentifier(car.getImageUrl(), "drawable", 
-                holder.itemView.getContext().getPackageName());
-        holder.carImage.setImageResource(resourceId);
-
-        holder.buyButton.setOnClickListener(v -> listener.onCarClick(car));
+        holder.buyButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onCarClick(car);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return carList.size();
+        return cars.size();
     }
 
     static class CarViewHolder extends RecyclerView.ViewHolder {
