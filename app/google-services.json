@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140310200223",
+    "project_id": "vroom-efa99",
+    "storage_bucket": "vroom-efa99.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140310200223:android:dbd616f5bcd9374a8d47aa",
+        "android_client_info": {
+          "package_name": "com.example.vroom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP25NfCxSTpEPqHx_2pR0iwSlP5HTQWSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
